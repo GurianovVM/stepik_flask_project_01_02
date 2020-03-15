@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title_page }}
+{% endblock %}
+
+{% block nav %}
+{% for i, j in nav.items() %}
+  <li class="nav-item active">
+    <a class="nav-link" href="/departure/{{ i }}">{{ j }}</a>
+  </li>
+{% endfor %}
+{% endblock %}
+{% block content %}
+  <main class="container mt-3">
+    <h1 class="display-5 mt-4">Летим {% for i, j in nav.items()  %} {% if i == departure_id %} {{ j }} {% endif %} {% endfor %}</h1>
+    <p class="mb-4">Найдено {{ tour_id|length }} {% if tour_id|length == 1 %}тур{% elif tour_id|length > 1 and tour_id|length < 5 %}тура{% else %}туров{% endif %}, от {{ content[0] }} до {{ content[1] }} и от {{ content[2] }} ночей до {{ content[3] }} ночей</p>
+    <!-- CARDS -->
+    <div class="row mt-5">
+      {% for card in range(tour|length) %}
+      <div class="col-4">
+        <div class="card mb-4">
+          <div class="embed-responsive embed-responsive-16by9">
+          <img src="{{ tour[card].picture }}" class="card-img-top embed-responsive-item" alt="">
+          </div>
+          <div class="card-body">
+            <h2 class="h5 card-title">{{ tour[card].title }}</h2>
+            <p class="card-text">{{ tour[card].description|truncate(100) }}</p>
+            <a href="/tour/{{ tour_id[card] }}" class="btn btn-sm btn-primary">Подробнее</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </main>
+  {% endblock %}}
